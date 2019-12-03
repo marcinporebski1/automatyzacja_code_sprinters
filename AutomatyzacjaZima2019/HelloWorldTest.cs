@@ -1,4 +1,5 @@
-﻿using Xunit;
+﻿using System;
+using Xunit;
 
 namespace AutomatyzacjaZima2019
 {
@@ -7,7 +8,15 @@ namespace AutomatyzacjaZima2019
         [Fact]
         public void CanSayHello()
         {
-            Assert.True(true);
+            var a = 1;
+            var b = 2;
+            var result = function(a, b);
+            Assert.Equal(42, result);
+        }
+
+        private int function(int a, int b)
+        {
+            return 42;
         }
     }
 }
