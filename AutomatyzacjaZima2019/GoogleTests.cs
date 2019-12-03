@@ -35,43 +35,55 @@ namespace AutomatyzacjaZima2019
             Assert.Equal("3", result.Text);
         }
 
-    }
-}
+        [Fact]
+        public void add_new_comment()
+        {
+            browser.Navigate().GoToUrl("https://automatyzacja.benedykt.net");
+            var queryBox = browser.FindElement(By.CssSelector(".entry-header"));
+            var link = queryBox.FindElement(By.TagName("a"));
+            link.Click();
+            var comment = browser.FindElement(By.Id("comment"));
+            var exampleText = Faker.Lorem.Paragraph();
+            comment.SendKeys(exampleText);
+            var sign = browser.FindElement(By.Id("author"));
+            var ExampleAuthor = Faker.Name.FullName();
+            sign.SendKeys(ExampleAuthor);
+            var mail = browser.FindElement(By.Id("email"));
+            var exampleEmail = Faker.Internet.Email();
+            mail.SendKeys(exampleEmail);
 
-public class ArekTests : IDisposable
-{
-    IWebDriver browser;
-    public ArekTests()
-    {
-        browser = new ChromeDriver();
-    }
+            MoveToElement(browser.FindElement(By.CssSelector("div.nav-links")));
+            browser.FindElement(By.Id("submit")).Submit();
 
-    public void Dispose()
-    {
-        browser.Quit();
-    }
+            var comments = browser.FindElements(By.CssSelector("article.comment-body"));
+            var myComments = comments
+                .Where(c => c.FindElement(By.CssSelector(".fn")).Text == ExampleAuthor)
+                .Where(c => c.FindElement(By.CssSelector(".comment-content > p")).Text == exampleText);
 
-    [Fact]
-    public void add_new_comment()
+            Assert.Single(myComments);
+
+        }
         private void MoveToElement(IWebElement element)
-    {
-        browser.Navigate().GoToUrl("https://automatyzacja.benedykt.net");
-        var queryBox = browser.FindElement(By.CssSelector(".entry-header"));
-        var link = queryBox.FindElement(By.TagName("a"));
-        link.Click();
-        var comment = browser.FindElement(By.Id("comment"));
-        comment.SendKeys("Komentarz testowy");
-        var sign = browser.FindElement(By.Id("author"));
-        sign.SendKeys("Jan Janowski");
-        var mail = browser.FindElement(By.Id("email"));
-        mail.SendKeys("jan@nowak.pl");
-        Action builder = new Actions(browser);
-        Actions moveTo = builder.MoveToElement(element);
-        moveTo.Build().Perform();
-        var publiccomment = browser.FindElement(By.Id("Submit"));
-        publiccomment.Click();
-     
+        {
+            Actions builder = new Actions(browser);
+            Actions moveTo = builder.MoveToElement(element);
+            moveTo.Build().Perform();
+        }
     }
-
 }
 
+//public class ArekTests : IDisposable
+//{
+//    IWebDriver browser;
+//    public ArekTests()
+//    {
+//        browser = new ChromeDriver();
+//    }
+
+//    public void Dispose()
+//    {
+//        browser.Quit();
+//    }
+
+
+//}
