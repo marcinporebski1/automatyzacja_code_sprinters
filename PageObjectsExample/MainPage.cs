@@ -6,11 +6,11 @@ namespace PageObjectsExample
     internal partial class MainPage
     {
         private const string MAIN_PAGE_BASE_URL = "https://automatyzacja.benedykt.net";
-        private readonly IWebDriver browser;
+        private readonly IWebDriver _browser;
 
         private MainPage(IWebDriver browser)
         {
-            this.browser = browser;
+            _browser = browser;
             browser.Navigate().GoToUrl(MAIN_PAGE_BASE_URL);
         }
         internal static MainPage Open()
@@ -20,10 +20,10 @@ namespace PageObjectsExample
 
         internal NotePage NavigateToNewestNote()
         {
-            var latestNote = browser.FindElement(By.CssSelector(".entry-title > a"));
+            var latestNote = _browser.FindElement(By.CssSelector(".entry-title > a"));
             latestNote.Click();
 
-            return new NotePage();
+            return new NotePage(_browser);
         }
     }
 }
