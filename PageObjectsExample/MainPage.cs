@@ -13,9 +13,9 @@ namespace PageObjectsExample
             _browser = browser;
             browser.Navigate().GoToUrl(MAIN_PAGE_BASE_URL);
         }
-        internal static MainPage Open()
+        internal static MainPage Open(IWebDriver browser)
         {
-            return new MainPage(DriverFactory.Get());
+            return new MainPage(browser);
         }
 
         internal NotePage NavigateToNewestNote()
