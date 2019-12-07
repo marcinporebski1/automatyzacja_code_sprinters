@@ -1,6 +1,9 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Interactions;
+using OpenQA.Selenium.Support.UI;
 using System;
+using System.Linq;
 using Xunit;
 
 namespace PageObjectsExample
@@ -38,12 +41,25 @@ namespace PageObjectsExample
             var wyloguj = browser.FindElement(By.Id("wp-admin-bar-logout"));
             wyloguj.Click();
 
-            var comments = browser.FindElements(By.PartialLinkText("costamcostam"));
-            var myComments = comments
-                .Where(c => c.FindElement(By.PartialLinkText("costamcostam")).Text == title)
+            //var comments = browser.FindElements(By.XPath("http://automatyzacja.benedykt.net/uncategorized/costamcostam/"));
+            //var myComments = comments
+                //.Where(c => c.FindElement(By.XPath("http://automatyzacja.benedykt.net/uncategorized/costamcostam/")).Text == title);
 
-            Assert.Single(myComments);
+            //Assert.Single(myComments);
 
         }
+        
+        internal void MoveToElement(By selector)
+        {
+            //var element = browser.FindElement(By.ClassName("ab-item");
+            //MoveToElement(element);
+        }
+      
+        internal void WaitForClickable(By selector, int seconds = 3)
+        {
+            var wait = new WebDriverWait(browser, TimeSpan.FromSeconds(seconds));
+            //wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(selector));
+        }
+        
     }
 }
